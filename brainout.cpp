@@ -20,6 +20,7 @@ void kotak_border() {
         mvaddch(j, 0, '|');
         mvaddch(j, KOLOM - 1, '|');
     }
+    
 
     mvaddch(0, 0, '+');
     mvaddch(0, KOLOM - 1, '+');
@@ -38,5 +39,27 @@ void efek_ketik(int y, int x, const char *text, int speed) {
         mvaddch(y, x + i, text[i]);
         refresh();
         napms(speed);
+    }
+}
+void loading_next(int Level) {
+    clear();
+    kotak_border();
+
+    char buf[50];
+    sprintf(buf, "Next = %d", Level);
+    mvprintw(BARIS - 2, KOLOM - strlen(buf) - 3, "%s", buf);
+
+    const char *teks = "GOOD JOB...YOU GREAT...";
+
+    for (int i = 0; i < 3; i++) {
+        mvprintw(BARIS / 2, (KOLOM - (int)strlen(teks)) / 2, "%s", teks);
+
+        for (int j = 0; j <= i; j++)
+            printw(".");
+
+        refresh();
+        napms(400);
+        clear();
+        kotak_border();
     }
 }
