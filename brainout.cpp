@@ -81,7 +81,7 @@ void showCaraBermain() {
     mvprintw(5, 4, "1. Setiap soal punya waktu 15 detik");
     mvprintw(6, 4, "2. Jawab sebelum waktu habis");
     mvprintw(7, 4, "3. Salah = game over");
-    mvprintw(8, 4, "4. Tekan langsung A atau L (tanpa Enter)");
+    mvprintw(8, 4, "4. pilih jawaban dan ikuti intruksi");
     
     attron(A_BLINK | A_BOLD);
     teks_tengah(BARIS - 3, ">> SIAP = SPASI <<");
@@ -99,8 +99,8 @@ int menuPilihLevel() {
         teks_tengah(2, "PILIH LEVEL");
         attroff(COLOR_PAIR(5) | A_BOLD);
 
-        mvprintw(5, 6, "1. Level Symbol (3 soal)");
-        mvprintw(6, 6, "2. Level Umum (5 soal)");
+        mvprintw(5, 6, "1. Level Symbol ");
+        mvprintw(6, 6, "2. Level Umum )");
         mvprintw(9, 6, "Pilih level : ");
 
         refresh();
