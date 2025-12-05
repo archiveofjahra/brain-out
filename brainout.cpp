@@ -82,8 +82,30 @@ void showCaraBermain() {
     mvprintw(6, 4, "2. Jawab sebelum waktu habis");
     mvprintw(7, 4, "3. Salah = game over");
     mvprintw(8, 4, "4. Tekan langsung A atau L (tanpa Enter)");
+    
     attron(A_BLINK | A_BOLD);
     teks_tengah(BARIS - 3, ">> SIAP = SPASI <<");
     attroff(A_BLINK | A_BOLD);
     while (getch() != ' ');
+}
+
+int menuPilihLevel() {
+    int ch = 0;
+    while (1) {
+        clear();
+        kotak_border();
+
+        attron(COLOR_PAIR(5) | A_BOLD);
+        teks_tengah(2, "PILIH LEVEL");
+        attroff(COLOR_PAIR(5) | A_BOLD);
+
+        mvprintw(5, 6, "1. Level Symbol (3 soal)");
+        mvprintw(6, 6, "2. Level Umum (5 soal)");
+        mvprintw(9, 6, "Pilih level : ");
+
+        refresh();
+        ch = getch();
+        if (ch == '1') return 1;
+        if (ch == '2') return 2;
+    }
 }
