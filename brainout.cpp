@@ -126,3 +126,11 @@ int tanya_lanjut() {
     attron(COLOR_PAIR(2) | A_BOLD);
     teks_tengah(5, "LEVEL SELESAI 100%!");
     attroff(COLOR_PAIR(2) | A_BOLD);
+
+    mvprintw(8, 6, "Lanjut level berikutnya? (y/n): ");
+    refresh();
+
+    int ch;
+    while ((ch = getch()) != 'y' && ch != 'n');
+    return (ch == 'y');  
+}
