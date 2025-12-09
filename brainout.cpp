@@ -9,20 +9,22 @@ int KOLOM;
 int BARIS;
 
 void kotak_border() {
-    attron(COLOR_PAIR(5) |A_BOLD);
+    attron(COLOR_PAIR(2) |A_BOLD);
     for (int i = 0; i < KOLOM; i++) {
         mvaddch(0, i, '-');
         mvaddch(BARIS - 1, i, '-');
     }
+    attron(COLOR_PAIR(1) | A_BOLD);
     for (int j = 0; j < BARIS; j++) {
         mvaddch(j, 0, '|');
         mvaddch(j, KOLOM - 1, '|');
+    attron(COLOR_PAIR(1) | A_BOLD);
     }
     mvaddch(0, 0, '+');
     mvaddch(0, KOLOM - 1, '+');
     mvaddch(BARIS - 1, 0, '+');
     mvaddch(BARIS - 1, KOLOM - 1, '+');
-    attroff(COLOR_PAIR(5) |A_BOLD);
+    attroff(COLOR_PAIR(1) |A_BOLD);
 }
 void teks_tengah(int y, const char *text) {
     int x = (KOLOM - (int)strlen(text)) / 2;
@@ -30,10 +32,15 @@ void teks_tengah(int y, const char *text) {
 }
 
 void efek_ketik(int y, int x, const char *text, int speed) {
+        int colors[] = {1, 2, 4, 5};
+        int len = (int)strlen(text);
     for (int i = 0; i < (int)strlen(text); i++) {
+        int cp = colors[i % 4];
+    attron(COLOR_PAIR(cp) | A_BOLD);
         mvaddch(y, x + i, text[i]);
-        refresh();
-        napms(speed);
+    attroff(COLOR_PAIR(cp) | A_BOLD);
+    refresh();
+    napms(speed);
     }
 }
 void loading_next(int Level) {
@@ -75,15 +82,18 @@ void showCaraBermain() {
     clear();
     getmaxyx(stdscr, BARIS, KOLOM);
     kotak_border();
-    attron(COLOR_PAIR(5) | A_BOLD);
+    attron(COLOR_PAIR(1) | A_BOLD);
     teks_tengah(2, "CARA BERMAIN");
-    attroff(COLOR_PAIR(5) | A_BOLD);
+    attroff(COLOR_PAIR(1) | A_BOLD);
+    
+    attron(COLOR_PAIR(5) | A_BOLD);
     mvprintw(5, 4, "1. Setiap soal punya waktu 15 detik");
     mvprintw(6, 4, "2. Jawab sebelum waktu habis");
     mvprintw(7, 4, "3. Salah = game over");
     mvprintw(8, 4, "4. pilih jawaban dan ikuti intruksi");
+    attroff(COLOR_PAIR(5) | A_BOLD);
     
-    attron(A_BLINK | A_BOLD);
+    attron(COLOR_PAIR (1) | A_BLINK | A_BOLD);
     teks_tengah(BARIS - 3, ">> SIAP = SPASI <<");
     attroff(A_BLINK | A_BOLD);
     while (getch() != ' ');
@@ -97,10 +107,10 @@ int menuPilihLevel() {
 
         attron(COLOR_PAIR(5) | A_BOLD);
         teks_tengah(2, "PILIH LEVEL");
-        attroff(COLOR_PAIR(5) | A_BOLD);
 
+        attron(COLOR_PAIR(2) | A_BOLD);
         mvprintw(5, 6, "1. Level Symbol ");
-        mvprintw(6, 6, "2. Level Umum )");
+        mvprintw(6, 6, "2. Level Umum ");
         mvprintw(9, 6, "Pilih level : ");
 
         refresh();
