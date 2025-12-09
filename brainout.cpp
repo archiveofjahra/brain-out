@@ -387,3 +387,51 @@ int main() {
                 napms(700);
             }
 
+            else {
+                attron(COLOR_PAIR(3) | A_BOLD);
+                teks_tengah(BARIS - 4, "SALAH! GAME OVER");
+                attroff(COLOR_PAIR(3) | A_BOLD);
+                refresh();
+                napms(1000);
+                gameOver = 1;
+                break;
+            }
+        }
+
+        skor_total += skor;
+
+        if (gameOver) break;
+         if (level == 2) break;
+
+         if (!tanya_lanjut())
+        break;
+    
+    gameOver = 0;
+
+    level++;
+
+    }
+
+    clear();
+    kotak_border();
+
+    attron(COLOR_PAIR(1) | A_BOLD);
+    teks_tengah(6, "GAME SELESAI!");
+
+    attron(COLOR_PAIR(2) | A_BOLD);
+    char hasil[100];
+    sprintf(hasil, "Skor Total: %d", skor_total);
+    teks_tengah(9, hasil);
+    
+    attron(COLOR_PAIR(3) | A_BOLD);
+    teks_tengah(11, "LEBIH GIAT LAGI YAAAAA!!!!!");
+
+    teks_tengah(14, "TERIMA KASIH SUDAH BERMAIN!");
+
+    refresh();
+    napms(3000);
+    sleep(2);
+
+    endwin();
+    return 0;
+}
