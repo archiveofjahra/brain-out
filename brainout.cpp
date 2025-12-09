@@ -119,3 +119,10 @@ int menuPilihLevel() {
         if (ch == '2') return 2;
     }
 }
+
+int tanya_lanjut() {
+    clear(); 
+    kotak_border();
+    attron(COLOR_PAIR(2) | A_BOLD);
+    teks_tengah(5, "LEVEL SELESAI 100%!");
+    attroff(COLOR_PAIR(2) | A_BOLD);
