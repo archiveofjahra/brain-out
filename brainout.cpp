@@ -292,4 +292,50 @@ int main() {
                     mvprintw(17, xmid + 14, " \\        /");
                     mvprintw(18, xmid + 14, "  \\______/");
                 }
+                else if (i == 3) {
+                    mvprintw(6, xmid + 15, "__________");
+                    mvprintw(7, xmid + 15, "\\        /");
+                    mvprintw(8, xmid + 15, " \\      /");
+                    mvprintw(9, xmid + 15, "  \\    /");
+                    mvprintw(10, xmid + 15, "   \\  /");
+                    mvprintw(11, xmid + 15, "    \\/");
+
+                    mvprintw(14, xmid - 2, "[A] BENAR");
+                    mvprintw(14, xmid + 28, "[L] SALAH");
+                }
+
+                attroff(COLOR_PAIR(5) | A_BOLD);
+            }
+            else if (level == 2) {
+                int xmid = KOLOM / 2;
+
+                jBenar = kunciArr[i];
+
+                const char *pilihanSalah[] = {
+                    "int main", "cout", "sleep", "refresh", "cin"
+                };
+                const char *jSalah = pilihanSalah[i % 7];
                 
+                if (pos == 0) {
+                    
+                mvprintw(10, xmid - 20, "[A] %s", jBenar);
+                mvprintw(10, xmid + 10, "[L] %s", jSalah);
+          } else {
+                mvprintw(10, xmid - 20, "[A] %s", jSalah);
+                mvprintw(10, xmid + 10, "[L] %s", jBenar);
+            }
+
+            }
+
+            refresh();
+
+            int waktu = 15;
+            int terjawab = 0;
+            char jawaban[10] = {0};
+
+            timeout(1000);
+
+            for (int t = waktu; t > 0 && !terjawab; t--) {
+                tampil_timer(t);
+                refresh();
+
