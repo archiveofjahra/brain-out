@@ -134,3 +134,162 @@ int tanya_lanjut() {
     while ((ch = getch()) != 'y' && ch != 'n');
     return (ch == 'y');  
 }
+
+int main() {
+    initscr();
+    getmaxyx(stdscr, BARIS, KOLOM);
+    noecho();
+    curs_set(0);
+    start_color();
+    keypad(stdscr, TRUE);
+
+    if (has_colors()) {
+        init_pair(1, COLOR_CYAN, COLOR_BLACK);
+        init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+        init_pair(3, COLOR_RED, COLOR_BLACK);
+        init_pair(4, COLOR_WHITE, COLOR_BLACK);
+        init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
+    }
+
+    srand((unsigned)time(NULL));
+
+    char nama[50];
+    int row, col;
+    getmaxyx(stdscr, row, col);
+
+    clear();
+    kotak_border();
+
+    attron(COLOR_PAIR(1) | A_BOLD);
+    char judul[] = "=== SELAMAT DATANG DI BRAIN OUT ===";
+    efek_ketik(3, (col - (int)strlen(judul)) / 2, judul, 50);
+    attroff(COLOR_PAIR(1) | A_BOLD);
+
+    napms(500);
+
+    attron(COLOR_PAIR(1) | A_BOLD);
+    mvprintw(5, 5, "Masukkan nama kamu: ");
+    echo();
+    curs_set(1);
+    move(5, 27);
+    getstr(nama);
+    noecho();
+    curs_set(0);
+    attroff(COLOR_PAIR(1) | A_BOLD);
+
+    clear(); 
+    kotak_border();
+
+    char sapaan[100];
+    sprintf(sapaan, "HALO %s! SUDAH SIAP? JAWABLAH PERTANYAAN DENGAN BENAR!", nama);
+    efek_ketik(5, 5, sapaan, 60);
+
+    attron(COLOR_PAIR (5) | A_BLINK | A_BOLD);
+    teks_tengah(22, ">> SPASI UNTUK MULAI <<"); 
+    attroff(A_BLINK | A_BOLD);
+    while (getch() != ' ');
+
+    showCaraBermain();
+    int level = menuPilihLevel();
+
+    clear();
+    kotak_border();
+    attron(COLOR_PAIR(2) | A_BOLD);
+    efek_ketik(LINES / 3, (COLS - 20) / 2, "LETSSGOOOOO........", 70);
+    attroff(COLOR_PAIR(2));
+    napms(800);
+
+    clear();
+    kotak_border();
+    attron(COLOR_PAIR(2) | A_BOLD);
+     efek_ketik(LINES / 3, (COLS - 20) / 2, "LOADINGGG........", 70);
+    attroff(COLOR_PAIR(2) | A_BOLD);
+    napms(1500);
+    refresh();
+    napms(1500);
+    clear();
+
+    const char *soal_Symbol[4] = {
+        "Simbol apakah ini?",
+        "Yang manakah simbol INPUT / OUTPUT?",
+        "Manakah simbol Decision?",
+        "Apakah gambar simbol dibawah ini STORAGE SYMBOL?"
+    };
+
+    const char *soal_Umum[5] = {
+        "Fungsi mulai ncurses adalah?",
+        "Cetak di posisi dinamakan?",
+        "Disebut apa Delay milidetik?",
+        "Fungsi Hapus layar dalam ncurses adalah?",
+        "untuk membaca 1 karakter?"
+    };
+
+    const char *kunci_Umum[5] = {
+        "initscr", "mvprintw", "napms", "clear", "getch"
+    };
+
+    int skor_total = 0;
+    int gameOver = 0;
+
+    while (level <= 2 && !gameOver) {
+        int jumlahSoal = (level == 1) ? 4 : 5;
+        const char **soal = (level == 1) ? soal_Symbol : soal_Umum;
+        const char **kunciArr = (level == 2) ? kunci_Umum : NULL;
+
+        int skor = 0;
+    
+        for (int i = 0; i < jumlahSoal; i++) {
+            int pos = rand() % 2; 
+
+            clear();
+            kotak_border();
+            mvprintw(2, 4, "LEVEL %d - Soal %d/%d", level, i + 1, jumlahSoal);
+            mvprintw(5, 4, "%s", soal[i]);
+
+            const char *jBenar = NULL;
+
+            if (level == 1) {
+                attron(COLOR_PAIR(5) | A_BOLD);
+                int xmid = (KOLOM - 40) / 2;
+
+                if (i == 0) {
+                    mvprintw(6, xmid + 15, " _________");
+                    mvprintw(7, xmid + 15, "|         |");
+                    mvprintw(8, xmid + 15, "|         |");
+                    mvprintw(9, xmid + 15, "|_________|");
+
+                    mvprintw(12, xmid - 10, "[A] PROSES");
+                    mvprintw(12, xmid + 26, "[L] INPUT/OUTPUT");
+                }
+                else if (i == 1) {
+                    mvprintw(8, xmid - 10, "[A] BELAH KETUPAT");
+                    mvprintw(10, xmid - 10, "      /\\");
+                    mvprintw(11, xmid - 10, "     /  \\");
+                    mvprintw(12, xmid - 10, "     \\  /");
+                    mvprintw(13, xmid - 10, "      \\/");
+
+                    mvprintw(8, xmid + 26, "[L] JAJAR GENJANG");
+                    mvprintw(10, xmid + 26, "   _________");
+                    mvprintw(11, xmid + 26, "  /         /");
+                    mvprintw(12, xmid + 26, " /         /");
+                    mvprintw(13, xmid + 26, "/_________/");
+                }
+                else if (i == 2) {
+                    mvprintw(8, xmid - 10, "[L] PERSEGI");
+                    mvprintw(10, xmid - 10, "   _______");
+                    mvprintw(11, xmid - 10, "  |       |");
+                    mvprintw(12, xmid - 10, "  |       |");
+                    mvprintw(13, xmid - 10, "  |_______|");
+
+                    mvprintw(8, xmid + 30, "[A] BELAH KETUPAT");
+                    mvprintw(10, xmid + 33, "      /\\");
+                    mvprintw(11, xmid + 33, "     /  \\");
+                    mvprintw(12, xmid + 33, "     \\  /");
+                    mvprintw(13, xmid + 33, "      \\/");
+
+                    mvprintw(15,  xmid + 9, "[N] TRAPESIUM TERBALIK");
+                    mvprintw(16,  xmid + 14, "  ________");
+                    mvprintw(17, xmid + 14, " \\        /");
+                    mvprintw(18, xmid + 14, "  \\______/");
+                }
+                
