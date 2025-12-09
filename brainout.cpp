@@ -339,3 +339,51 @@ int main() {
                 tampil_timer(t);
                 refresh();
 
+               int c = getch();
+
+                if (c != ERR) {
+                    if (c == 'a' || c == 'A' || c == 'l' || c == 'L') {
+                        jawaban[0] = tolower(c);
+                        jawaban[1] = '\0';
+                        terjawab = 1;
+                    }
+                }
+            }
+
+            timeout(-1);
+
+            if (!terjawab) {
+                attron(COLOR_PAIR(3) | A_BOLD);
+                teks_tengah(BARIS - 4, "WAKTU HABIS! GAME OVER");
+                attroff(COLOR_PAIR(3) | A_BOLD);
+                refresh();
+                napms(1500);
+                gameOver = 1;
+                break;
+            }
+
+            int benar = 0;
+
+            if (level == 1) {
+                if (i == 0) benar = (jawaban[0] == 'a');
+                if (i == 1) benar = (jawaban[0] == 'l');
+                if (i == 2) benar = (jawaban[0] == 'a');
+                if (i == 3) benar = (jawaban[0] == 'a');
+            }
+           else if (level == 2) {
+            if ((pos == 0 && jawaban[0] == 'a') ||
+                 (pos == 1 && jawaban[0] == 'l')) {
+                 benar = 1;
+                }
+
+            }
+
+            if (benar) {
+                skor++;
+                attron(COLOR_PAIR(2) | A_BOLD);
+                teks_tengah(BARIS - 4, "BENAR!");
+                attroff(COLOR_PAIR(2) | A_BOLD);
+                refresh();
+                napms(700);
+            }
+
