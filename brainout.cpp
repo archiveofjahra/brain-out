@@ -9,17 +9,20 @@ int KOLOM;
 int BARIS;
 
 void kotak_border() {
-    attron(COLOR_PAIR(2) |A_BOLD);
+    attron(COLOR_PAIR(2) | A_BOLD);
     for (int i = 0; i < KOLOM; i++) {
-        mvaddch(0, i, '-');
-        mvaddch(BARIS - 1, i, '-');
-    }
+    mvaddch(0, i, '-');
+    mvaddch(BARIS - 1, i, '-');
+}
+attroff(COLOR_PAIR(2) | A_BOLD);
+
     attron(COLOR_PAIR(1) | A_BOLD);
     for (int j = 0; j < BARIS; j++) {
         mvaddch(j, 0, '|');
         mvaddch(j, KOLOM - 1, '|');
-    attron(COLOR_PAIR(1) | A_BOLD);
     }
+    attroff(COLOR_PAIR(1) | A_BOLD);
+    
     mvaddch(0, 0, '+');
     mvaddch(0, KOLOM - 1, '+');
     mvaddch(BARIS - 1, 0, '+');
@@ -33,8 +36,9 @@ void teks_tengah(int y, const char *text) {
 
 void efek_ketik(int y, int x, const char *text, int speed) {
         int colors[] = {1, 2, 4, 5};
-        int len = (int)strlen(text);
-    for (int i = 0; i < (int)strlen(text); i++) {
+        int len = strlen(text);
+        for (int i = 0; i < len; i++) {
+            
         int cp = colors[i % 4];
     attron(COLOR_PAIR(cp) | A_BOLD);
         mvaddch(y, x + i, text[i]);
@@ -49,21 +53,19 @@ void loading_next(int Level) {
     kotak_border();
 
     char buf[50];
-    sprintf(buf, "Next = %d", Level);
+    attron(COLOR_PAIR(1) | A_BOLD);
+    sprintf(buf, "Next LEVEL %d", Level);
     mvprintw(BARIS - 2, KOLOM - (int)strlen(buf) - 3, "%s", buf);
 
-    const char *teks = "GOOD JOB...YOU GREAT...";
-
-    for (int i = 0; i < 3; i++) {
-        mvprintw(BARIS / 2, (KOLOM - (int)strlen(teks)) / 2, "%s", teks);
-        for (int j = 0; j <= i; j++)
-            printw(".");
+    const char *teks = "GOOD JOBBB....YOUR GREATTT........";
+    
+    attron(COLOR_PAIR(3) | A_BOLD);
+    efek_ketik(LINES / 3, (COLS - (int)strlen(teks)) / 2, teks, 70);
+    attroff(COLOR_PAIR(3) | A_BOLD);
 
         refresh();
-        napms(400);
-        clear();
-        kotak_border();
-    }
+        napms(700);
+
 }
 
 void tampil_timer(int t) {
@@ -71,11 +73,11 @@ void tampil_timer(int t) {
         attron(COLOR_PAIR(3) | A_BOLD);
         beep();
     } else {
-        attron(COLOR_PAIR(4));
+        attron(COLOR_PAIR(2) | A_BOLD);
     }
     mvprintw(1, KOLOM - 15, "WAKTU: %02d", t);
     attroff(COLOR_PAIR(3) | A_BOLD);
-    attroff(COLOR_PAIR(4));
+    attroff(COLOR_PAIR(2) | A_BOLD);
 }
 
 void showCaraBermain() {
@@ -94,9 +96,12 @@ void showCaraBermain() {
     attroff(COLOR_PAIR(5) | A_BOLD);
     
     attron(COLOR_PAIR (1) | A_BLINK | A_BOLD);
-    teks_tengah(BARIS - 3, ">> SIAP = SPASI <<");
+    teks_tengah(22, ">> SUDAH SIAP = SPASI & ENTER <<"); 
     attroff(A_BLINK | A_BOLD);
-    while (getch() != ' ');
+
+    int ch;
+    while ((ch = getch()) != ' ');
+    while ((ch = getch()) != '\n' && ch != 10);
 }
 
 int menuPilihLevel() {
@@ -125,13 +130,13 @@ int tanya_lanjut() {
     kotak_border();
     attron(COLOR_PAIR(2) | A_BOLD);
     teks_tengah(5, "LEVEL SELESAI 100%!");
-    attroff(COLOR_PAIR(2) | A_BOLD);
 
+    attron(COLOR_PAIR(1) | A_BOLD);
     mvprintw(8, 6, "Lanjut level berikutnya? (y/n): ");
     refresh();
 
     int ch;
-    while ((ch = getch()) != 'y' && ch != 'n');
+    while ((ch =tolower(getch())) != 'y' && ch != 'n');
     return (ch == 'y');  
 }
 
@@ -149,6 +154,7 @@ int main() {
         init_pair(3, COLOR_RED, COLOR_BLACK);
         init_pair(4, COLOR_WHITE, COLOR_BLACK);
         init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
+        init_pair(6, COLOR_GREEN, COLOR_BLACK);
     }
 
     srand((unsigned)time(NULL));
@@ -243,9 +249,13 @@ int main() {
 
             clear();
             kotak_border();
+            attron(COLOR_PAIR(6) | A_BOLD);
             mvprintw(2, 4, "LEVEL %d - Soal %d/%d", level, i + 1, jumlahSoal);
-            mvprintw(5, 4, "%s", soal[i]);
 
+            attron(COLOR_PAIR(1) | A_BOLD);
+            mvprintw(5, 4, "%s", soal[i]);
+             attroff(COLOR_PAIR(1) | A_BOLD);
+            
             const char *jBenar = NULL;
 
             if (level == 1) {
@@ -253,12 +263,12 @@ int main() {
                 int xmid = (KOLOM - 40) / 2;
 
                 if (i == 0) {
-                    mvprintw(6, xmid + 15, " _________");
-                    mvprintw(7, xmid + 15, "|         |");
-                    mvprintw(8, xmid + 15, "|         |");
-                    mvprintw(9, xmid + 15, "|_________|");
+                    mvprintw(6, xmid + 10, " _________");
+                    mvprintw(7, xmid + 10, "|         |");
+                    mvprintw(8, xmid + 10, "|         |");
+                    mvprintw(9, xmid + 10, "|_________|");
 
-                    mvprintw(12, xmid - 10, "[A] PROSES");
+                    mvprintw(12, xmid - 5, "[A] PROSES");
                     mvprintw(12, xmid + 26, "[L] INPUT/OUTPUT");
                 }
                 else if (i == 1) {
@@ -316,17 +326,18 @@ int main() {
                 };
                 const char *jSalah = pilihanSalah[i % 7];
                 
-                if (pos == 0) {
-                    
+               if (pos == 0) {
+                attron(COLOR_PAIR(10) | A_BOLD);
                 mvprintw(10, xmid - 20, "[A] %s", jBenar);
                 mvprintw(10, xmid + 10, "[L] %s", jSalah);
-          } else {
+                attroff(COLOR_PAIR(10) | A_BOLD);
+    } else {
+                attron(COLOR_PAIR(10) | A_BOLD);
                 mvprintw(10, xmid - 20, "[A] %s", jSalah);
                 mvprintw(10, xmid + 10, "[L] %s", jBenar);
-            }
-
-            }
-
+                attroff(COLOR_PAIR(10) | A_BOLD);
+   }
+            }          
             refresh();
 
             int waktu = 15;
@@ -342,7 +353,7 @@ int main() {
                int c = getch();
 
                 if (c != ERR) {
-                    if (c == 'a' || c == 'A' || c == 'l' || c == 'L') {
+                    if (c == 'a' || c == 'A' || c == 'l' || c == 'L' || c == 'n' || c == 'N') {
                         jawaban[0] = tolower(c);
                         jawaban[1] = '\0';
                         terjawab = 1;
@@ -402,6 +413,8 @@ int main() {
 
         if (gameOver) break;
          if (level == 2) break;
+
+        loading_next(level + 1);
 
          if (!tanya_lanjut())
         break;
