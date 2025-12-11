@@ -227,7 +227,7 @@ int main() {
         "Cetak di posisi dinamakan?",
         "Disebut apa Delay milidetik?",
         "Fungsi Hapus layar dalam ncurses adalah?",
-        "untuk membaca 1 karakter?"
+        "Fungsi untuk membaca 1 karakter?"
     };
 
     const char *kunci_Umum[5] = {
@@ -273,23 +273,23 @@ int main() {
                 }
                 else if (i == 1) {
                     mvprintw(8, xmid - 10, "[A] BELAH KETUPAT");
-                    mvprintw(10, xmid - 10, "      /\\");
-                    mvprintw(11, xmid - 10, "     /  \\");
-                    mvprintw(12, xmid - 10, "     \\  /");
-                    mvprintw(13, xmid - 10, "      \\/");
+                    mvprintw(11, xmid - 10, "      /\\");
+                    mvprintw(12, xmid - 10, "     /  \\");
+                    mvprintw(13, xmid - 10, "     \\  /");
+                    mvprintw(14, xmid - 10, "      \\/");
 
                     mvprintw(8, xmid + 26, "[L] JAJAR GENJANG");
-                    mvprintw(10, xmid + 26, "   _________");
-                    mvprintw(11, xmid + 26, "  /         /");
-                    mvprintw(12, xmid + 26, " /         /");
-                    mvprintw(13, xmid + 26, "/_________/");
+                    mvprintw(11, xmid + 26, "   _________");
+                    mvprintw(12, xmid + 26, "  /         /");
+                    mvprintw(13, xmid + 26, " /         /");
+                    mvprintw(14, xmid + 26, "/_________/");
                 }
                 else if (i == 2) {
                     mvprintw(8, xmid - 10, "[L] PERSEGI");
-                    mvprintw(10, xmid - 10, "   _______");
-                    mvprintw(11, xmid - 10, "  |       |");
-                    mvprintw(12, xmid - 10, "  |       |");
-                    mvprintw(13, xmid - 10, "  |_______|");
+                    mvprintw(10, xmid - 10, "   ________");
+                    mvprintw(11, xmid - 10, "  |        |");
+                    mvprintw(12, xmid - 10, "  |        |");
+                    mvprintw(13, xmid - 10, "  |________|");
 
                     mvprintw(8, xmid + 30, "[A] BELAH KETUPAT");
                     mvprintw(10, xmid + 33, "      /\\");
